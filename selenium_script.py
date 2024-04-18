@@ -4,8 +4,8 @@ import os
 
 def main():
     # Get the paths from environment variables
-    chrome_driver_path = os.environ.get('CHROMEDRIVER_PATH')
-    chrome_binary_path = os.environ.get('CHROME_BINARY_PATH')
+    chrome_driver_path = os.environ.get('CHROMEWEBDRIVER')
+    chrome_binary_path = os.environ.get('CHROME_BINARY')
 
     # Set up Chrome options
     chrome_options = webdriver.ChromeOptions()
