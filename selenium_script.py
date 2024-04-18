@@ -1,23 +1,31 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import os
 
 def main():
-    chrome_driver_path = os.getenv('CHROMEWEBDRIVER')
-    chrome_binary_path = os.getenv('CHROME_BINARY')
+    # Get the paths from environment variables
+    chrome_driver_path = os.environ.get('CHROMEDRIVER_PATH')
+    chrome_binary_path = os.environ.get('CHROME_BINARY_PATH')
 
-    options = Options()
-    options.binary_location = chrome_binary_path
+    # Set up Chrome options
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.binary_location = chrome_binary_path
+    chrome_options.add_argument("--headless")  # Run headless if desired
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
 
+    # Initialize the Chrome driver
     service = Service(executable_path=chrome_driver_path)
-    driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    # Example URL
-    driver.get("http://www.example.com")
-    print(driver.title)
-
-    driver.quit()
+    try:
+        # Navigate to a website and perform actions
+        driver.get("https://www.example.com")
+        print(driver.title)  # Print the title of the webpage
+    finally:
+        # Close the browser
+        driver.quit()
 
 if __name__ == "__main__":
     main()
