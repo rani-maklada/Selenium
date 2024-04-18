@@ -5,7 +5,7 @@ import os
 
 def main():
     # Set the path for ChromeDriver and Chrome Binary
-    chrome_driver_path = os.getenv('CHROMEWEBDRIVER', '/usr/local/bin/chromedriver')
+    chrome_driver_path = os.getenv('CHROMEWEBDRIVER')
     chrome_binary_path = os.getenv('CHROME_BIN_PATH', '/opt/google/chrome/chrome')
 
     options = Options()
