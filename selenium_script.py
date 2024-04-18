@@ -9,11 +9,13 @@ def main():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    # Get the path to ChromeDriver from environment variable
-    chrome_driver_path = os.getenv('CHROME_DRIVER', '/usr/local/bin/chromedriver')
-    
-    # Create a Service object with the path to ChromeDriver
+    # Get the ChromeDriver path from an environment variable
+    chrome_driver_path = os.getenv('CHROMEWEBDRIVER')
+
+    # Create a Service object with the ChromeDriver path
     s = Service(chrome_driver_path)
+
+    # Initialize the Chrome driver with the service
     driver = webdriver.Chrome(service=s, options=options)
 
     try:
