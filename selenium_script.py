@@ -1,33 +1,31 @@
+## Run selenium and chrome driver to scrape data from cloudbytes.dev
+import time
+import os.path
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-import os
 
-def main():
-    # Set up Chrome options
-    options = Options()
-    options.add_argument("--headless")  # Runs Chrome in headless mode.
-    options.add_argument("--no-sandbox")  # Bypass OS security model
-    options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
+## Setup chrome options
+chrome_options = Options()
+chrome_options.add_argument("--headless") # Ensure GUI is off
+chrome_options.add_argument("--no-sandbox")
 
-    # Set path to chrome/chromedriver as per your configuration
-    homedir = os.path.expanduser("~")
-    options.binary_location = f"{homedir}/chrome-linux64/chrome"
-    service = Service(f"{homedir}/chromedriver/stable/chromedriver")
-    
-    driver = webdriver.Chrome(service=service, options=options)
+# Set path to chrome/chromedriver as per your configuration
+homedir = os.path.expanduser("~")
+chrome_options.binary_location = f"{homedir}/chrome-linux64/chrome"
+webdriver_service = Service(f"{homedir}/chromedriver/stable/chromedriver")
 
-    try:
-        # Navigate to a website
-        driver.get("http://example.com")
+# Choose Chrome Browser
+browser = webdriver.Chrome(service=webdriver_service, options=chrome_options)
 
-        # Take a screenshot and save it to the current directory
-        driver.save_screenshot("screenshot.png")
-        print("Screenshot taken and saved as 'screenshot.png'.")
+# Get page
+browser.get("https://cloudbytes.dev")
 
-    finally:
-        # Clean up: close the browser window
-        driver.quit()
+# Extract description from page and print
+description = browser.find_element(By.NAME, "description").get_attribute("content")
+print(f"{description}")
 
-if __name__ == "__main__":
-    main()
+#Wait for 10 seconds
+time.sleep(10)
+browser.quit()
