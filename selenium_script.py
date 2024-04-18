@@ -9,13 +9,12 @@ def main():
     options.add_argument("--headless")  # Runs Chrome in headless mode.
     options.add_argument("--no-sandbox")  # Bypass OS security model
     options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
-    options.binary_location = os.getenv('CHROME_BIN_PATH') + "/chrome"
 
-    # Set the path to the ChromeDriver
-    chrome_driver_path = os.getenv('CHROMEWEBDRIVER')
-
-    # Create a new instance of Chrome
-    service = Service(executable_path=chrome_driver_path)
+    # Set path to chrome/chromedriver as per your configuration
+    homedir = os.path.expanduser("~")
+    options.binary_location = f"{homedir}/chrome-linux64/chrome"
+    service = Service(f"{homedir}/chromedriver/stable/chromedriver")
+    
     driver = webdriver.Chrome(service=service, options=options)
 
     try:
