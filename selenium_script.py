@@ -1,31 +1,23 @@
-## Run selenium and chrome driver to scrape data from cloudbytes.dev
-import time
-import os.path
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+import os
 
-## Setup chrome options
-chrome_options = Options()
-chrome_options.add_argument("--headless") # Ensure GUI is off
-chrome_options.add_argument("--no-sandbox")
+def main():
+    chrome_driver_path = os.getenv('CHROMEWEBDRIVER')
+    chrome_binary_path = os.getenv('CHROME_BINARY')
 
-# Set path to chrome/chromedriver as per your configuration
-homedir = os.path.expanduser("~")
-chrome_options.binary_location = f"{homedir}/chrome-linux64/chrome"
-webdriver_service = Service(f"{homedir}/chromedriver/stable/chromedriver")
+    options = Options()
+    options.binary_location = chrome_binary_path
 
-# Choose Chrome Browser
-browser = webdriver.Chrome(service=webdriver_service, options=chrome_options)
+    service = Service(executable_path=chrome_driver_path)
+    driver = webdriver.Chrome(service=service, options=options)
 
-# Get page
-browser.get("https://cloudbytes.dev")
+    # Example URL
+    driver.get("http://www.example.com")
+    print(driver.title)
 
-# Extract description from page and print
-description = browser.find_element(By.NAME, "description").get_attribute("content")
-print(f"{description}")
+    driver.quit()
 
-#Wait for 10 seconds
-time.sleep(10)
-browser.quit()
+if __name__ == "__main__":
+    main()
