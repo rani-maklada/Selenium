@@ -25,6 +25,10 @@ def main():
     try:
         driver.get("https://www.example.com")
         print(driver.title)
+        # Save a screenshot to the workspace
+        screenshot_path = os.path.join(os.getcwd(), 'screenshot.png')  # Saving to the current working directory
+        driver.save_screenshot(screenshot_path)
+        print(f"Screenshot saved to {screenshot_path}")
     finally:
         driver.quit()
 
